@@ -1,19 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="menu">
+      <ul>
+        <li
+          v-for="item in trickKeys"
+          :key="item"
+          :class="{
+            'menu-item': true,
+            'menu-item-active': item === selectedMenu,
+          }"
+          @click="selectedMenu = key"
+        >
+          {{ key }}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <component :is="trickComMap[selectedMenu]" />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Modal from './components/Modal';
+import Form from './components/Form';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: { Modal, Form },
+  data() {
+    const trickKeys = ['modal', 'form'];
+    return {
+      trickKeys,
+      selectedMenu: trickKeys[0],
+      trickComMap: {
+        modal: 'Modal',
+        form: 'Form',
+      },
+    };
+  },
+};
 </script>
 
 <style>
