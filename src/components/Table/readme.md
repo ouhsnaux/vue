@@ -1,13 +1,15 @@
 # table-tricks
 
-1. table + page + form 组合
-1. table 多选可翻页
+1. `table` + `page` + `form` 组合
+1. `table` 多选可翻页
 
 ## table + page + form
 
-* 表单内容变化时，重置 pageNum 和 pageSize，发送请求
-* pageNum 变化时，发送请求
-* pageSize 变化时，重置 pageNum，发送请求
+* 表单内容变化时，重置 `pageNum` 和 `pageSize`，发送请求
+* `pageNum` 变化时，发送请求
+* `pageSize` 变化时，发送请求
+* 由于 `pageSize` 变化极有可能触发 `on-change` 事件，导致发送**2**次请求，
+需要使用防抖
 
 ## table 多选可翻页
 
