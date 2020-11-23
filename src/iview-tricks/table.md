@@ -2,6 +2,7 @@
 
 1. `table` + `page` + `form` 组合
 1. `table` 多选可翻页
+1. `table` 多选，且单元格有输入框
 
 ## table + page + form
 
@@ -37,3 +38,12 @@ onSelectionChange(list) {
   this.chosenList = this.chosenList.concat(list);
 },
 ```
+
+## `table` 多选，且单元格有输入框
+
+通常情况下，输入框的值我们会从 `tableData` 中取，并对输入框进行双向绑定。
+但是当输入框数据变化时，`table` 组件会刷新，选中行的状态会被初始化。
+下面有两种解决方案。
+
+1. `data` 中增加一个属性记录输入框的值 `inputMap`，渲染时根据 `inputMap` 及索引取值。
+1. 另一种方法是，手动控制选中项，维护 `tableData` 中每一项的 `_checked` 值。
