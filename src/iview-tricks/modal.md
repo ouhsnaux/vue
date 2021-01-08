@@ -2,8 +2,7 @@
 
 1. 双向绑定控制显示状态。
 1. 自定义 footer slot。
-1. modal 关闭时，初始化自定义状态。
-1. modal 打开时，请求数据。
+1. modal 打开时，请求数据，关闭时，初始化自定义状态。
 
 ## 1. modal显示
 
@@ -106,9 +105,39 @@ methods: {
 }
 ```
 
-## 3. Modal 关闭时 清空数据
+## 3. Modal 打开时请求数据，关闭时 清空数据
 
-如果 Modal 中含有自定义状态，有时在 Modal 关闭时需要清空状态。
+监听 `value`，当 `value` 为 `true` 时请求数据，为 `false` 时重置数据
+
+```vue
+data() {
+  return this.getDefaultData();
+}
+methods: {
+  getDefaultData() {
+    return { ... };
+  },
+  setDefaultData() {
+    let newData = this.getDefaultData();
+    Object.entries(newData).forEach(([key, value]) => {
+      this[key] = value;
+    });
+  },
+},
+watch: {
+  value(val) {
+    if (val) {
+      // 打开时请求数据
+      this.getData();
+    } else {
+      // 关闭时初始化
+      this.setDefaultData();
+    }
+  },
+},
+```
+
+如果不需要请求数据，可以在 `set` 时清空状态。
 
 ```vue
 computed: {
@@ -131,22 +160,4 @@ computed: {
 <Modal v-model="visible">
   <Content v-if="visible />
 </Modal>
-```
-
-## 4. modal 打开时，请求数据
-
-监听 `value`，当 `value` 为 `true` 时请求数据。
-
-```vue
-watch: {
-  value(val) {
-    if (val) {
-      // 打开时请求数据
-      this.getData();
-    } else {
-      // 关闭时初始化
-      this.setDefaultData();
-    }
-  },
-},
 ```
