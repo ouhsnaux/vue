@@ -1,5 +1,30 @@
 # Vuex
 
+- [State](#state)
+  - [单一状态树](#单一状态树)
+  - [组件中使用](#组件中使用)
+  - [mapState](#mapstate)
+- [Getter](#getter)
+  - [参数](#参数)
+  - [返回值](#返回值)
+  - [mapGetters](#mapgetters)
+- [Mutation](#mutation)
+  - [定义](#定义)
+  - [其它](#其它)
+- [Action](#action)
+  - [与 `Mutation` 的不同](#与-mutation-的不同)
+  - [定义](#定义-1)
+  - [TODO 测试普通的dispatch是否也返回promise](#todo-测试普通的dispatch是否也返回promise)
+- [模块化](#模块化)
+  - [局部状态](#局部状态)
+  - [命名空间](#命名空间)
+    - [绑定函数](#绑定函数)
+  - [动态注册](#动态注册)
+  - [保留state](#保留state)
+  - [模块重用](#模块重用)
+- [其它](#其它-1)
+- [TODO](#todo)
+
 ## State
 
 ### 单一状态树
@@ -16,9 +41,9 @@
 
 传递对象时，值数据类型：
 
-* 箭头函数
-* 字符串
-* 常规函数，如果需要使用 `this`
+- 箭头函数
+- 字符串
+- 常规函数，如果需要使用 `this`
 
 ## Getter
 
@@ -52,16 +77,16 @@ store 的计算属性，根据 `state` 派生出的多处复用，可缓存的�
 
 ### 其它
 
-* 使用常量替代 `Mutation` 事件类型
-* 必须是同步函数
-* 调用方式：`this.$store.commit` 或 `mapMutations`
+- 使用常量替代 `Mutation` 事件类型
+- 必须是同步函数
+- 调用方式：`this.$store.commit` 或 `mapMutations`
 
 ## Action
 
 ### 与 `Mutation` 的不同
 
-* `Action` 提交 `mutation`，而不是直接修改状态
-* `Action` 可以包含异步操作
+- `Action` 提交 `mutation`，而不是直接修改状态
+- `Action` 可以包含异步操作
 
 ### 定义
 
@@ -103,9 +128,9 @@ store 的计算属性，根据 `state` 派生出的多处复用，可缓存的�
 
 ### 动态注册
 
-* registerModule
-* unregisterModule
-* hasModule
+- registerModule
+- unregisterModule
+- hasModule
 
 ### 保留state
 
@@ -117,13 +142,13 @@ preserveState: true,
 
 ## 其它
 
-* 组合式 `API` 通过 `useStore` 获取 `store` 实例。
-* 插件
-* 严格模式，不要在生产环境使用
-* 表单双向绑定，使用计算属性的 `get`, `set`
+- 组合式 `API` 通过 `useStore` 获取 `store` 实例。
+- 插件
+- 严格模式，不要在生产环境使用
+- 表单双向绑定，使用计算属性的 `get`, `set`
 
 ## TODO
 
-* 测试
-* 热重载
-* TS
+- 测试
+- 热重载
+- TS
