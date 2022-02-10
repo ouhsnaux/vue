@@ -14,7 +14,6 @@
 - [Action](#action)
   - [与 `Mutation` 的不同](#与-mutation-的不同)
   - [定义](#定义-1)
-  - [TODO 测试普通的dispatch是否也返回promise](#todo-测试普通的dispatch是否也返回promise)
 - [模块化](#模块化)
   - [局部状态](#局部状态)
   - [命名空间](#命名空间)
@@ -98,7 +97,7 @@ store 的计算属性，根据 `state` 派生出的多处复用，可缓存的�
 
 调用方式：`this.$store.dispatch` 或 `mapActions`
 
-### TODO 测试普通的dispatch是否也返回promise
+`dispatch` 返回结果是 `Promise` 类型
 
 ## 模块化
 
