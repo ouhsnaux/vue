@@ -7,10 +7,10 @@
 ```js
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 ...
 
-app.use(ElementPlus)
+app.use(ElementPlus, { locale: zhCn })
 ```
 
 TODO volar support
@@ -70,5 +70,6 @@ npm install -D stylus
 ## TODO
 
    1. ts
-   2. mock
-   3. test
+   2. vueuse
+   3. mock
+   4. test

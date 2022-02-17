@@ -10,6 +10,14 @@ $ npm init vite@latest <project-name> --template vue
 $ npm init vite@latest <project-name> -- --template vue
 ```
 
+修改配置
+
+```js
+{
+  "dev": "vite --port=3000",
+}
+```
+
 ## 代码规范
 
 ### EditorConfig
@@ -65,7 +73,14 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'no-console': [1],
+    'no-console': 1,
+    'no-param-reassign': 0,
+    'func-names': 0,
+
+    // import规则目前未添加 vite.config.js
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/vite.config.js'] }],
+    'import/prefer-default-export': 0,
+
     'prettier/prettier': [
       'error',
       {
