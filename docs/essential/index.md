@@ -133,6 +133,8 @@ Vue会根据当前浏览器环境自动给 `style` 添加需要的前缀。
 
 修饰符
 
+v-model也可以传递修饰符，其实是多传了一个属性 `modalModifiers` 完全可以写其它属性传递。在响应事件前，做下判断。
+
 ## 双向绑定
 
 `v-model`, `modalValue` 属性和 `update:modalValue` 事件的结合。
@@ -157,6 +159,132 @@ Vue会根据当前浏览器环境自动给 `style` 添加需要的前缀。
 * 被复用组件不执行什么声明周期，什么数据会变，什么数据不会变。
 * 测试 `key` 使用 `symbol`
 
-进度
+## 组件
+
+### 定义组件
+
+SFC
+template，render，mount(selector)
+
+### 使用组件
+
+组件内注册，setup自动注册，全局注册
+
+`defineProps` 定义 `props` 并返回实际的 `props`
+`defineEmits` 定义事件，并返回触发函数。
+`slots`
+动态组件
+
+`DOM` 中写模板的限制：
+
+1. 标签只能小写
+2. 标签结束不能使用自关闭
+
+### 属性继承
+
+未明确声明的属性和方法会被透传，并最终应用到根 `DOM` 元素。
+使用 `inheritAttrs: false` 明确不透传，setup不支持。
+使用 `$attrs` 操作未明确声明的属性和方法。属性大小写和连字符不会转化，事件名首字母大写并添加前缀 `on`。
+setup通过 `ctx.attrs` 或 `useAttrs` 获取。
+多根组件需要明确表明谁来继承属性。
+`$attrs` 内容是响应式的，但是本身不能被监听。
+
+### 其它
+
+单向数据流
+
+### 插槽
+
+1. 在子组件中使用在父组件添加的子节点
+2. 作用域插槽，由于插槽在父组件定义，不能使用子组件的数据，子组件可以将数据通过属性的方式传递给插槽。这使得一些组件可以封装逻辑，又叫无渲染组件，不过这种组件都可以使用组合式API封装。
+3. 后备内容，如果父组件没有提供插槽将显示
+4. 具名插槽，支持传递多个插槽，通过命名区分
+5. 动态插槽名
+
+### Provide/Inject
+
+不要异步调用
+
+`provide(key, value)`，app.provide，可以提供全局注入，对开发插件有帮助。
+`inject(key, defaultValue)`，默认值支持传递函数，只在需要的时候调用。
+如果后代组件需要修改值，可以再传递一个操作函数。通过readonly函数，控制属性只读。
+
+`key` 除了字符串还支持 `symbol`，可以在一个新的文件中定义常量并调用。
+
+### 异步组件
+
+`defineAsyncComponent` 接收一个返回 `promise` 的函数。resolve中加载组件或reject原因。
+
+示例：`defineAsyncComponent(() => import('./components/MyComponent.vue'))`
+
+也可以传递一个对象
+
+* loader: 异步加载函数
+* loadingComponent: 加载中组件
+* delay 延迟后显示加载中组件，默认200ms
+* errorComponent: 出错组件
+* timeout 超时后显示出错组件，默认无穷大
+
+## 复用
+
+### Composable
+
+无状态复用使用函数，有状态复用使用 `Composable`。
+通过返回响应式数据复用逻辑，可以相互嵌套使用。
+
+命名以use开头，入参最好使用 `unref` 兼容响应式数据。
+使用 `watch` 和 `watchEffect` 监控数据变化并产生副作用。
+如果对 `composable` 函数使用结构赋值，返回时最好都是用ref创建，而不是reactive，否则使用结构赋值会失去响应式。
+
+比如添加事件监听，需要在卸载时清理。
+
+限制：只能在setup中同步调用。
+
+还可以用来按照功能重新组织代码。
+
+完全可以替代 `mixins` 和逻辑组件
+
+### 自定义指令
+
+为了公用访问原始 `DOM` 的逻辑。
+`setup` 中 `v` 开头的变量被解析为指令。生命周期没有beforeCreate
+
+参数：
+
+* el: DOM
+* binding
+  * value 指令传入的值
+  * oldValue 更新前的值，只在更新阶段的2个函数中可用
+  * arg 参数，`:`后的值，一般时自定义
+  * modifiers 修饰符，一般是预定义的bool类型
+  * instance 组件实例
+  * dir // TODO ???
+* vnode
+* prevNode
+
+只读，不要修改，如果需要共享数据，使用原生的dataset
+
+如果只需在 `mounted` 和 `updated` 中执行相同逻辑的处理，可以直接传递处理函数。
+
+```js
+app.directive('color', (el, binding) => {
+  // this will be called for both `mounted` and `updated`
+  el.style.color = binding.value
+})
+```
+
+指令如果在组件中使用，最终会绑定在根节点，如果是多根组件会报错，不建议将指令用在组件上。
+
+### 插件
+
+返回一个包含 `install` 方法的对象，或直接该方法本身。接收组件实例和自定义配置。
+插件本身没有明确的定义，一般有以下应用场景：
+
+1. 全局注册组件和指令
+2. 全局数据注入
+3. 添加全局属性
+4. 上面操作的组合，比如 `vue-router`
+
+### 进度
 
 <https://vuejs.org/guide/essentials/watchers.html#watcheffect>
