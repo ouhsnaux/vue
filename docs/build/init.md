@@ -40,7 +40,7 @@ trim_trailing_whitespace = true
 
 ### Eslint + Prettier
 
-安装相关依赖
+开发环境安装相关依赖，
 
 ```json
 {
@@ -122,7 +122,7 @@ resolve: {
 
 ### 编辑器配置
 
-添加 `jsconfig.json`
+添加 `jsconfig.json` 或 `tsconfig.json`
 
 ```json
 {
@@ -155,6 +155,10 @@ resolve: {
   },
 }
 ```
+
+## TS
+
+`tsc --init` 生成 `tsconfig.json`, 配置别名，添加 `allowJs: true`。
 
 ## 环境变量
 
