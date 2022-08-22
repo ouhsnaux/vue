@@ -145,3 +145,7 @@ export const useStore = defineStore('main', {
 * onError 错误回调
 
 ## 插件
+
+## TODO
+
+为什么pinia把vuex的所有限制都给抛到脑后

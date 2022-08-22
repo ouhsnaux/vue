@@ -2,59 +2,6 @@
 
 ## Element Plus
 
-安装依赖 `npm i element-plus`
-  
-### 按需自动引入
-
-安装插件 `unplugin-vue-components, unplugin-auto-import`，并修改配置 `vite.config.js`
-
-    ```js
-    // vite.config.ts
-    import AutoImport from 'unplugin-auto-import/vite'
-    import Components from 'unplugin-vue-components/vite'
-    import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
-    export default {
-      plugins: [
-        // ...
-        AutoImport({
-          resolvers: [ElementPlusResolver()],
-        }),
-        Components({
-          resolvers: [ElementPlusResolver()],
-        }),
-      ],
-    }
-    ```
-
-### 语言改为中文
-
-    ```vue
-    <template>
-      <el-config-provider :locale="locale">
-        <app />
-      </el-config-provider>
-    </template>
-
-    <script>
-      import { defineComponent } from 'vue'
-      import { ElConfigProvider } from 'element-plus'
-
-      import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-
-      export default defineComponent({
-        components: {
-          ElConfigProvider,
-        },
-        setup() {
-          return {
-            locale: zhCn,
-          }
-        },
-      })
-    </script>
-    ```
-
 ### 主题配置
 
     ```scss
@@ -133,19 +80,6 @@ export default createStore({});
     ```
 
 不能使用解构赋值，需要使用 `storeToRefs` 处理
-
-## CSS预处理器
-
-```sh
-# .scss and .sass
-npm install -D sass
-
-# .less
-npm install -D less
-
-# .styl and .stylus
-npm install -D stylus
-```
 
 ## 包分析
 

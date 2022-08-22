@@ -129,16 +129,39 @@ Vue会根据当前浏览器环境自动给 `style` 添加需要的前缀。
 
 可以传递函数名，函数调用，甚至是内联函数内容。
 
-函数调用中，使用 `$event` 表示函数调用的原参数。
+函数调用中，使用 `$event` 表示原始DOM事件。
 
-修饰符
+修饰符，注意顺序问题
 
-v-model也可以传递修饰符，其实是多传了一个属性 `modalModifiers` 完全可以写其它属性传递。在响应事件前，做下判断。
+* .stop
+* .prevent
+* .capture
+* .self
+* .once
+* .passive
+
+### 按键事件
+
+`@key-up.enter`
+`@key-up.enter.ctrl`
+`@key-up.enter.ctrl.exact`
+
+### 鼠标修饰符
+
+`.left`
+`.right`
+`.middle`
 
 ## 双向绑定
 
 `v-model`, `modalValue` 属性和 `update:modalValue` 事件的结合。
 支持传递其它属性。
+
+v-model也可以传递修饰符，其实是多传了一个属性 `modalModifiers` 完全可以写其它属性传递。在响应事件前，做下判断。
+
+* `.lazy`
+* `.number`
+* `.trim`
 
 ## 生命周期
 
@@ -288,3 +311,78 @@ app.directive('color', (el, binding) => {
 ### 进度
 
 <https://vuejs.org/guide/essentials/watchers.html#watcheffect>
+
+## 动态组件
+
+* <component :is>
+* v-if/v-else-if
+* render函数中判断
+
+## render 函数
+
+作用：
+
+* 透传所有slot
+* 实现动态组件的另一种方式
+
+this.$slots.default 表示所有子节点
+
+### 与slot联动
+
+模板语法
+
+```vue
+<template #A><p>123</p></template>
+<template #A="{a}"><p>{{ a }}</p></template>
+```
+
+render语法
+
+```vue
+<script>
+render(h) {
+  return h('p', { slot: 'A' }, '123');
+}
+render(h) {
+  return h('p', { scopedSlots: {
+    A: (props) => props.a
+  }});
+}
+</script>
+```
+
+模板语法
+
+```vue
+<slot></slot>
+<slot name="A"></slot>
+<slot name="A" a="a"></slot>
+```
+
+render语法
+
+```vue
+<script>
+render(h) {
+  return h('p', this.$slots.default);
+}
+render(h) {
+  return h('p', this.$slots.A);
+}
+render(h) {
+  return h('p', this.$scopedSlots.A({ a: 'a' }));
+}
+</script>
+```
+
+## 函数式组件
+
+functional
+
+## 错误处理
+
+选项钩子：
+errorCaptured,
+
+全局配置：
+Vue.config.errorHandler

@@ -31,3 +31,54 @@
 * animation 动画
 * variable SCSS 变量
 * element-ui ele样式重置
+
+## 环境变量
+
+### 定义
+
+位置 .env, .env.development, .env.production 添加变量，必须以 `VITE_` 开头。
+
+在 `src/vite-node.d.ts` 中定义环境变量类型
+
+```ts
+interface ImportMetaEnv {
+  readonly VITE_API_BASE_URL: string,
+  readonly VITE_API_TIME_OUT: number,
+  readonly VITE_USE_MOCK: boolean,
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+```
+
+### 类型转换
+
+<!-- TODO 转换函数目前校验报错 -->
+
+环境变量默认都是字符串类型，需要进行类型转换
+
+添加 `build/index.ts` 文件
+
+```ts
+const numberTypeKey = ['VITE_API_TIME_OUT'];
+export const useEnv = (env: Recordable): ImportMetaEnv =>
+  Object.keys(env).reduce((acc, key) => {
+    let value = env[key];
+    if (value === 'true') {
+      value = true;
+    } else if (value === 'false') {
+      value = false;
+    } else if (numberTypeKey.includes(key)) {
+      value = +value;
+    }
+    acc[key] = value;
+    return acc;
+  }, {});
+```
+
+修改 `tsconfig.json` 的 `include`，添加
+
+```json
+include: ["build/**/*.ts"]
+```
